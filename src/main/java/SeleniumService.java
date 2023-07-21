@@ -40,7 +40,6 @@ public class SeleniumService {
                 String color = webElement.getCssValue("color");
                 String bgColor = webElement.getCssValue("background-color");
 
-                //Todo: Debug perform();
                 //action.moveToElement(webElement).perform();
                 String hoverColor = webElement.getCssValue("color");
 
