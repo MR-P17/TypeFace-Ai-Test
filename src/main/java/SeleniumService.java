@@ -31,7 +31,6 @@ public class SeleniumService {
 
     public static Map<String, List<ColorCombination>> getAllColorsForTag(Map<String, List<WebElement>> allWebElementsTagWise, WebDriver driver){
         Map<String, List<ColorCombination>> allColorCombinationTagWise = new HashMap<>();
-        Actions action  = new Actions(driver);
 
         for(Map.Entry<String, List<WebElement>> entry: allWebElementsTagWise.entrySet()){
             String tagName = entry.getKey();
@@ -40,12 +39,16 @@ public class SeleniumService {
             for(WebElement webElement: webElements){
                 String color = webElement.getCssValue("color");
                 String bgColor = webElement.getCssValue("background-color");
+                String hoverColor = color;
+                String hoverBgColor = bgColor;
 
-                //action.moveToElement(webElement).perform();
-                String hoverColor = webElement.getCssValue("color");
+                if(isHoverSuccess(driver, webElement)){
+                    hoverColor = webElement.getCssValue("color");
+                }
 
-                //action.moveToElement(webElement).perform();
-                String hoverBgColor = webElement.getCssValue("background-color");
+                if(isHoverSuccess(driver, webElement)){
+                    hoverBgColor = webElement.getCssValue("background-color");
+                }
 
                 ColorCombination colorCombination = new ColorCombination(color, bgColor, hoverColor, hoverBgColor);
                 colorCombinations.add(colorCombination);
@@ -55,6 +58,17 @@ public class SeleniumService {
             allColorCombinationTagWise.put(tagName, weightedColorCombinations);
         }
         return allColorCombinationTagWise;
+    }
+
+    public static boolean isHoverSuccess(WebDriver webDriver, WebElement webElement) {
+        try {
+            Actions actions = new Actions(webDriver);
+            actions.moveToElement(webElement);
+            actions.perform();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public static List<ColorCombination> getWeightedColorCombination(List<ColorCombination> colorCombinations){
