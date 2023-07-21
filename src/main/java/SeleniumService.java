@@ -11,7 +11,8 @@ import java.util.stream.Collectors;
 public class SeleniumService {
 
     public static WebDriver getWebDriver(){
-        System.setProperty("webdriver.chrome.driver","/Users/prashant/Desktop/chromedriver");
+        //Todo: Change the path of as path of your project in local system.
+        System.setProperty("webdriver.chrome.driver","/Users/prashant/Desktop/googleapidemo/Test/src/chromedriver");
         WebDriver driver =  new ChromeDriver();
         return driver;
     }
